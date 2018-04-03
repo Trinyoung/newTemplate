@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>User Login and Sessions Signup</title>
+    <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
+</head>
+
+<body>
+    <div class="form-container">
+        <p class="form-header">Sign Up</p>
+        <form method="POST">
+            <label for="">Username:</label>
+            <input type="text" name="username">
+            <label for="">Password:</label>
+            <input type="password" name="password">
+            <label for="">Email:</label>
+            <input type="email" name="email">
+            <input type="submit" value="Register">
+        </form>
+    </div>
+    <hr>
+    <%= msg%>
+    
+</body>
+
+</html>

@@ -1,4 +1,7 @@
-class User {
+const crypto = require('crypto');
+const mongoose = require('mongoose');
+const User = mongoose.model('User');
+class Consumer {
     constructor() {
 
     }
@@ -25,21 +28,22 @@ class User {
     }
 
     login(req, res) {
+        const self = this;
         User.findOne({ username: req.body.username }).exec(function (err, user) {
-            if(err){
-              req.session.regenerate(function(){
-                  req.session.msg = err;
-                  res.redirect('/login')
-              })  
+            if (err) {
+                req.session.regenerate(function () {
+                    req.session.msg = err;
+                    res.redirect('/login')
+                })
             }
             if (!user) {
                 err = "User not found";
             } else if (user.hased_password ===
-                hashPw(req.body.password.toString())) {
+                self.hashPw(req.body.password.toString())) {
                 req.session.regenerate(function () {
                     req.session.user = user.id;
                     req.session.username = user.username;
-                    req.session.msg ='Authenticated as' + user.username;
+                    req.session.msg = 'Authenticated as' + user.username;
                     res.redirect('/')
                 })
             } else {
@@ -48,12 +52,56 @@ class User {
         });
     }
 
-}
-// exports.signup = function(req,res){
-    
-// }
-module.exports = new User();
-// exports.login = function (req,res){
-    
+    getUserProfile(req,res){
+        User.findOne({_id:req.session.user}).exec(function(err,user){
+            if(!user){
+                res.json(404,{err:'User Not Found'});
+            } else {
+                res.json(user)
+            }
+        });
+    }
 
-// }
+    updateUser(req,res){
+        User.findOne({_id:req.session.user}).exec(function(err,user){
+            user.set('email',req.body.email);
+            user.set('color',req.body.color);
+            user.save(function(err){
+                if(err){
+                    res.session.error = err;
+                } else {
+                    res.session.msg = 'User Updated'
+                };
+                res.redirect('/user');
+
+            })
+        })
+    }
+
+    deleteUser(req,res){
+        user.findOne({_id:req.session.user}).exec(function(err,user){
+            if(user){
+                user.remove(function(err){
+                    if(err){
+                        req.session.msg = err;
+                    } else {
+                        req.session.destroy(function(){
+                            res.redirect('/login')
+                        })
+                    }
+                })
+            } else {
+                req.session.msg = "User not Found";
+                req.session.destroy(function(){
+                    res.redirect('/login')
+                })
+            }
+        });
+    }
+
+    hashPw(pwd) {
+        return crypto.createHash('sha256').update(pwd).digest('base64').toString();
+    }
+}
+
+module.exports = new Consumer();

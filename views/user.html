@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" ng-app = "myApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div class = "form-container" ng-controller="myController">
+        <p class="form-header">User profile</p>
+        <form action="/user/update" method = "POST">
+            <label for="">username:</label>
+            <input type="text" name="username" ng-model = "user.username" disabled>
+            <br>
+            <label for="">Email</label>
+            <input type="email" name = "email" ng-model="user.email"><br>
+            <label for="">Favorite Color:</label>
+            <input type="text" name ="color" ng-model="user.color"><br>
+            <input type="submit" value = "Save">
+        </form>
+    </div>  
+    <form action="POST" action="/user/delte">
+        <input type="text" type="submit" value="Delete User">
+    </form> 
+    <hr><%=msg%>
+    <hr>{{error}}
+    <script src="http://code.angularjs.org/1.2.9/angular.min.js"></script>
+    <script src="/static/js/my_app.js"></script>
+</body>
+</html>doctype 
