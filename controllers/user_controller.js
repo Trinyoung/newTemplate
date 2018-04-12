@@ -5,9 +5,13 @@ class Consumer {
     constructor() {
 
     }
+    hashPw (pwd) {
+        return crypto.createHash('sha256').update(pwd).digest('base64').toString();
+    }
     signup(req, res) {
-        var user = new user({ username: req.body.username });
-        user.set('hashed_password', hashPW(req.body.password));
+        const self = this;
+        var user = new User({ username: req.body.username });
+        user.set('hashed_password', self.hashPw(req.body.password));
         user.set('email', req.body.emai);
         user.save(function (err) {
             if (err) {
@@ -97,11 +101,7 @@ class Consumer {
                 })
             }
         });
-    }
-
-    hashPw(pwd) {
-        return crypto.createHash('sha256').update(pwd).digest('base64').toString();
-    }
+    }    
 }
 
 module.exports = new Consumer();

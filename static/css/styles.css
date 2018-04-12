@@ -1,4 +1,4 @@
-div .form-container{
+div.form-container{
     display: inline-block;
     border:4px ridge blue;
     width:280px;
@@ -6,7 +6,7 @@ div .form-container{
     margin:10px;
 }
 
-p .form-header{
+p.form-header{
     margin:0px;
     font:24px bold;
     color:white;

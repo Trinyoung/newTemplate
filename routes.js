@@ -1,7 +1,8 @@
 var crypto = require('crypto');
 var express = require('express');
+var users = require('./controllers/user_controller');
 module.exports = function (app,passport) {
-    var users = require('./controllers/user_controller');
+    
     app.get('/', function (req, res) {
         if (req.session.user) {
             res.render('index', { username: req.session.username, msg: req.session.msg })
@@ -42,7 +43,7 @@ module.exports = function (app,passport) {
         });
     });
 
-    // app.post('/signup', users.signup);
+    app.post('/signup', users.signup.bind(users));
     // app.post('/user/update', users.updateUser);
     // app.post('/user/delete', users.deleteUser);
     // app.post('/login', users.login);

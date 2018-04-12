@@ -23,7 +23,6 @@ app.use(cookieParser());
 // 值被设定为已经连接的mongoose.connection.db数据库：
 app.use(expressSession({
     secret: 'SECRET',
-    // url: 'mongodb://localhost/myapp',
     cookie: { maxAge: 60 * 60 * 1000 },
     store: new mongoStore({
         db: mongoose.connection.db,
