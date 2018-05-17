@@ -8,27 +8,51 @@ class Consumer {
     hashPw(pwd) {
         return crypto.createHash('sha256').update(pwd).digest('base64').toString();
     }
-    signup(req, res) {
+    // signup(req, res) {
+    //     const self = this;
+    //     var user = new User({ username: req.body.username });
+    //     user.set('hashed_password', self.hashPw(req.body.password));
+    //     user.set('email', req.body.email);
+    //     user.save(function (err) {
+    //         if (err) {
+    //             req.session.error = err;
+    //             res.redirect('/signup');
+    //         } else {
+    //             if (err) {
+    //                 req.session.error = err;
+    //                 res.redirect('/signup');
+    //             } else {
+    //                 req.session.user = user.uid;
+    //                 req.session.username = user.username;
+    //                 req.session.msg = 'Authenticated as' + user.username;
+    //                 res.redirect('/')
+    //             }
+    //         }
+    //     });
+    // }
+
+    async signup(req, res) {
         const self = this;
         var user = new User({ username: req.body.username });
         user.set('hashed_password', self.hashPw(req.body.password));
-        user.set('email', req.body.emai);
-        user.save(function (err) {
-            if (err) {
-                res.session.error = err;
-                res.redirect('/signup');
-            } else {
-                if (err) {
-                    res.session.error = err;
-                    res.redirect('/signup');
-                } else {
-                    req.session.user = user.uid;
-                    req.session.username = user.username;
-                    req.session.msg = 'Authenticated as' + user.username;
-                    res.redirect('/')
-                }
-            }
+        user.set('email', req.body.email);
+        // var promise = new Promise(function (resolve, reject) {
+        //     user.save(function (err) {
+        //         if (!err) {
+        //             resolve( user);
+        //         } else {
+        //             reject(err);
+        //         }
+        //     });
+        // });
+        await user.save().catch((e)=>{
+            req.session.error = e;
+            res.redirect('/signup');
         });
+        req.session.user = user.uid;
+        req.session.username = user.username;
+        req.session.msg = 'Authenticated as'+ user.username;
+        res.redirect('/');
     }
 
     login(req, res) {
@@ -42,16 +66,18 @@ class Consumer {
             }
             if (!user) {
                 err = "User not found";
-            } else if (user.hased_password ===
+                res.send(err);
+            } else if (user.hashed_password ===
                 self.hashPw(req.body.password.toString())) {
                 req.session.regenerate(function () {
-                    req.session.user = user.id;
+                    req.session.user = user._id;
                     req.session.username = user.username;
                     req.session.msg = 'Authenticated as' + user.username;
                     res.redirect('/')
                 })
             } else {
                 err = "Authentication failed";
+                res.send(err);
             }
         });
     }

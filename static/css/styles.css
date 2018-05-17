@@ -1,22 +1,35 @@
 div.form-container{
-    display: inline-block;
-    border:4px ridge blue;
-    width:280px;
+    /* display: inline-block; */
+    border:1px ridge rgb(171, 171, 196);
+    /* width:280px; */
     border-radius: 10px;
-    margin:10px;
+    position: absolute;
+    /* margin:10px; */
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    /* margin:auto auto; */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* align:center; */
 }
 
-p.form-header{
-    margin:0px;
+.form-header{
+    margin-top:20px;
     font:24px bold;
-    color:white;
-    background:blue;
+    color:blue;
+    background:greenyellow;
     text-align:center;
 }
 
-form {
-    margin:10px;
+.form-group{
+    margin-top:5px;
 }
+/* form {
+    margin:10px;
+} */
 
 label{
     width:80px;
@@ -24,7 +37,7 @@ label{
 }
 
 input{
-    border:3px ridge blue;
+    border:1px ridge blue;
     border-radius:5px;
     padding:3px
 }
@@ -34,6 +47,6 @@ input [type=submit]{
     width:120px;
     color:white;
     background:blue;
-    margin-top:15px;
-    margin-left:85px;
+    /* margin-top:15px; */
+    /* margin-left:85px; */
 }
