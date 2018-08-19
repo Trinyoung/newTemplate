@@ -35,6 +35,6 @@ app.use('/static', express.static('./static'))
 .use('/lib', express.static('../lib'))
 ;
 // 下面的require()添加从./routes到express服务器的路由a：
-require('./routes')(app,passport);
+require('./router')(app,passport);
 
 app.listen(80);
